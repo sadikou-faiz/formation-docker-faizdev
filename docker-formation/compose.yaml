@@ -1,22 +1,12 @@
-version: '3.8'
-
 services:
-  app:
-    build: .
+  frontend:
+    build: ./frontend
     ports:
-      - "3000:3000"
-    environment:
-      - APP_PORT=3000
-      - NODE_ENV=development
-    depends_on: []
+      - "8080:80"
+    depends_on:
+      - backend
 
-  db:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_DB}
-    volumes:
-      - ${DB_VOLUME}:/var/lib/postgresql/data
+  backend:
+    build: ./backend
     ports:
-      - "5432:5432"
+      - "8000:8000"

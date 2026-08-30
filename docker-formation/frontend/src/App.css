@@ -1,0 +1,16 @@
+.app {
+  width: 100%;
+  max-width: 420px;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.message {
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.error {
+  color: #c0392b;
+}

@@ -1,17 +1,12 @@
-# Exercice 01 — Premier conteneur
+# Exercice 01 - Premier conteneur
 
 ## Objectif
 
-Découvrir Docker, les images et les conteneurs.
+Découvrir Docker : les images, les conteneurs, et la différence entre les deux.
 
 ## Prérequis
 
 - Avoir Docker installé localement ou utiliser GitHub Codespaces (conteneur de développement).
-- Avoir accès à un terminal.
-
-## Contexte
-
-Nous allons exécuter des images publiques et observer le comportement des conteneurs.
 
 ## Démonstration
 
@@ -27,18 +22,18 @@ Exécutez l'image `hello-world` pour voir ce qu'un conteneur fait :
 docker run hello-world
 ```
 
-Expliquez que ce conteneur s'exécute puis se termine immédiatement (il n'y a pas de processus qui reste en avant-plan).
-
-Affichez les conteneurs en cours d'exécution :
+Listez les images locales et les conteneurs :
 
 ```bash
-docker ps
+docker images
+docker ps      # conteneurs en cours d'exécution
+docker ps -a   # tous les conteneurs, y compris ceux arrêtés
 ```
 
-Affichez tous les conteneurs (y compris ceux arrêtés) :
+Inspectez un conteneur pour voir ses détails (réseau, image, etc.) :
 
 ```bash
-docker ps -a
+docker inspect <container_id_or_name>
 ```
 
 ## À vous de jouer
@@ -49,70 +44,34 @@ docker ps -a
 docker pull nginx:alpine
 ```
 
-2) Lancez un conteneur `nginx` :
+2) Lancez deux conteneurs à partir de cette même image :
 
 ```bash
-docker run --name mon-nginx -d -p 8080:80 nginx:alpine
+docker run --name web1 -d -p 8082:80 nginx:alpine
+docker run --name web2 -d -p 8083:80 nginx:alpine
 ```
 
-3) Vérifiez qu'il tourne :
+3) Vérifiez qu'ils tournent et comparez-les :
 
 ```bash
 docker ps
+docker inspect web1
+docker inspect web2
 ```
 
-4) Ouvrez `http://localhost:8080` dans votre navigateur (ou utilisez l'interface Codespaces pour exposer le port).
+4) Ouvrez `http://localhost:8082` et `http://localhost:8083` dans votre navigateur (ou utilisez l'interface Codespaces pour exposer les ports).
 
-5) Arrêtez le conteneur :
+5) Arrêtez et supprimez les deux conteneurs :
 
 ```bash
-docker stop mon-nginx
+docker stop web1 web2
+docker rm web1 web2
 ```
 
-6) Supprimez le conteneur :
+6) Supprimez les images téléchargées :
 
 ```bash
-docker rm mon-nginx
+docker rmi hello-world:latest nginx:alpine busybox:latest
 ```
 
-## Vérification
-
-- `docker ps -a` doit montrer le conteneur supprimé comme absent.
-
-## Exercice pratique
-
-Créez et supprimez un conteneur `nginx` supplémentaire avec le nom `web-test`.
-
-```bash
-# Démarrer
-docker run --name web-test -d -p 8081:80 nginx:alpine
-# Vérifier
-docker ps
-# Arrêter
-docker stop web-test
-# Supprimer
-docker rm web-test
-```
-
-## Questions
-
-- Pourquoi `hello-world` se termine immédiatement ?
-- Quelle est la différence entre une image et un conteneur ?
-
-## Erreurs fréquentes
-
-- Port déjà utilisé : changer le port hôte `-p 8080:80` vers un port libre.
-- Conteneur avec le même nom existe : supprimer ou utiliser un autre nom.
-
-## Ce que vous devez retenir
-
-- `docker run` crée et démarre un conteneur à partir d'une image.
-- `docker ps` montre les conteneurs actifs, `docker ps -a` montre tout.
-
-## Pour aller plus loin
-
-- Consultez `docker logs <container>` pour voir la sortie d'un conteneur.
-
-## Prochain exercice
-
-Passez à [02-images-et-conteneurs](../02-images-et-conteneurs/README.md)
+Passez à [02-frontend-et-backend](../02-frontend-et-backend/README.md)
